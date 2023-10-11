@@ -26,8 +26,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from pose2animation.mesh_viewer import MeshViewer
-from pose2animation import utils
+from smplifyx.mesh_viewer import MeshViewer
+from smplifyx import utils
 
 
 @torch.no_grad()

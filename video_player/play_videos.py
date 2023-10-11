@@ -2,8 +2,10 @@ import os.path as osp
 import cv2
 import numpy as np
 
+from video2animation.video_processing import to_mp4
 
-def play_videos(*video_fns, 
+
+def play_videos(*video_fns,
                 output_file='out.mp4', 
                 show=False,
                 max_resolution=(1080, 1920)):
@@ -63,6 +65,7 @@ def play_videos(*video_fns,
         if c is not None:
             c.release()
     out.release()
+    to_mp4(output_file)
 
     cv2.destroyAllWindows()
 

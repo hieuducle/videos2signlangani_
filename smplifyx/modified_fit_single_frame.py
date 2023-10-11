@@ -15,10 +15,10 @@ from collections import defaultdict
 
 import cv2
 
-from pose2animation.optimizers import optim_factory
-from pose2animation import fitting
+from smplifyx.optimizers import optim_factory
+from smplifyx import fitting
 
-import pose2animation.fitting
+import smplifyx.fitting
 # from human_body_prior.tools.model_loader import load_vposer
 from human_body_prior.tools.model_loader import load_model
 from human_body_prior.models.vposer_model import VPoser

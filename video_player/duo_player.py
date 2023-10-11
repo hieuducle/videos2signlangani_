@@ -1,8 +1,12 @@
 import numpy as np
 import cv2
 
+from video2animation.video_processing import to_mp4
+
+
 def duo_player(first_video, second_video):
     cap = [cv2.VideoCapture(i) for i in [first_video, second_video]]
+    output_file = 'out.mp4'
     out = None
     target_resolution = None
 
@@ -18,7 +22,7 @@ def duo_player(first_video, second_video):
             # 0: Width
             # 1: Height
             target_resolution = (sum([f.shape[1] for f in frames]), max([f.shape[0] for f in frames]))
-            out = cv2.VideoWriter('out.mp4',cv2.VideoWriter_fourcc(*'mp4v'), cap[0].get(cv2.CAP_PROP_FPS), target_resolution)
+            out = cv2.VideoWriter(output_file,cv2.VideoWriter_fourcc(*'mp4v'), cap[0].get(cv2.CAP_PROP_FPS), target_resolution)
 
         combine_frame = np.zeros(shape=(target_resolution[1], target_resolution[0], 3), dtype=np.uint8)
 
@@ -43,10 +47,14 @@ def duo_player(first_video, second_video):
     
     if out is not None:
         out.release()
+        to_mp4(output_file)
 
     cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
-    duo_player(r'D:\UET\KLTN\vsl\output_data\videos\Easy On Me - Adele -Contemporary Dance Sabrina Ryckaert_ver0.1\output_frame_step_30_length200.mp4',
-               r'D:\UET\KLTN\vsl\output_data\videos\Easy On Me - Adele -Contemporary Dance Sabrina Ryckaert_ver0.2\output_frame_step_30_length200.mp4')
+    # duo_player(r'D:\UET\KLTN\vsl\output_data\videos\Easy On Me - Adele -Contemporary Dance Sabrina Ryckaert_ver0.1\output_frame_step_30_length200.mp4',
+    #            r'D:\UET\KLTN\vsl\output_data\videos\Easy On Me - Adele -Contemporary Dance Sabrina Ryckaert_ver0.2\output_frame_step_30_length200.mp4')
+
+    duo_player(r'input_data\openpose-videos\test-on-full-body.avi',
+               r'input_data\openpose-videos\test-openpose.avi')

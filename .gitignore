@@ -162,11 +162,10 @@ cython_debug/
 # Local
 .venv/
 .vscode/
-ffmpeg*/
 models/
-input_data/
-output_data/
+data/
 res/blender/addon/
-*.mp4
+**/test.py
 *.md
 !readme.md
+!data/fit_smplx.yaml

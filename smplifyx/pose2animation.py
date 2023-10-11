@@ -8,12 +8,15 @@ import re
 
 import smplx
 
-from pose2animation.utils import *
-from pose2animation.data_parser import read_keypoints, OpenPose
-from pose2animation.camera import create_camera
-from pose2animation.prior import create_prior
-from pose2animation.modified_fit_single_frame import fit_single_frame
-from pose2animation.animating.character import load_pose
+import env
+
+from smplifyx.utils import *
+from smplifyx.data_parser import read_keypoints, OpenPose
+from smplifyx.camera import create_camera
+from smplifyx.prior import create_prior
+from smplifyx.modified_fit_single_frame import fit_single_frame
+from animating.character import load_pose
+
 
 def pose2animation(armature,
                    frame,
@@ -22,9 +25,9 @@ def pose2animation(armature,
                    use_hands=True,
                    use_face=True,
                    use_cuda=True,
-                   smpl_config_fn=r'models\cfg_files\fit_smplx.yaml'):
+                   smpl_config_fn=osp.join(env.INPUT_FOLDER, 'fit_smplx.yaml')):
     file_name = osp.split(keypoints_fn)[1]
-    smpl_pose_fn = osp.join(r'output_data\smpl', file_name.split('_',)[0], gender, osp.splitext(file_name)[0].split('_')[1]+'.pkl')
+    smpl_pose_fn = osp.join(env.OUTPUT_FOLDER, 'smpl', file_name.split('_',)[0], gender, osp.splitext(file_name)[0].split('_')[1]+'.pkl')
     os.makedirs(osp.split(smpl_pose_fn)[0], exist_ok=True)
 
     if not osp.exists(smpl_pose_fn):
@@ -47,7 +50,7 @@ def fitting_pose(keypoints_fn: str,
                  use_hands=True,
                  use_face=True,
                  use_cuda=True,
-                 smpl_config_fn=r'models\cfg_files\fit_smplx.yaml'):
+                 smpl_config_fn=r'data\input-data\fit_smplx.yaml'):
     
     # Get recommend config from file
     args = {}
@@ -83,11 +86,7 @@ def fitting_pose(keypoints_fn: str,
     joint_mapper = JointMapper(smpl_to_openpose(use_hands=use_hands, use_face=use_face))
 
     vpose_model_path = 'models/V02_05'
-    # vpose_model_path = 'models/vposer_v1_0'
-    # vpose_model_path = osp.normpath(vpose_model_path)
-
     smplx_model_path = r'D:\UET\KLTN\vsl\models'
-    # smplx_model_path = osp.normpath(smplx_model_path)
 
     model_params = dict(model_path=smplx_model_path,
                         model_type='smplx',
@@ -171,11 +170,11 @@ def fitting_pose(keypoints_fn: str,
     keypoints = read_keypoints(keypoints_fn, use_hands=use_hands, use_face=use_face)
     keypoints = np.stack(keypoints.keypoints)[[0]]
 
-    # # auto fill hip base on mid hip and mid shoulder
-    # keypoints[0][9][0] = keypoints[0][8][0] - np.linalg.norm(keypoints[0][1][:2] - keypoints[0][8][:2]) / 5
-    # keypoints[0][12][0] = keypoints[0][8][0] + np.linalg.norm(keypoints[0][1][:2] - keypoints[0][8][:2]) / 5
-    # keypoints[0][9][1] = keypoints[0][12][1] = keypoints[0][8][1]
-    # keypoints[0][9][2] = keypoints[0][12][2] = keypoints[0][8][2]
+    # auto fill hip base on mid hip and mid shoulder
+    keypoints[0][9][0] = keypoints[0][8][0] - np.linalg.norm(keypoints[0][1][:2] - keypoints[0][8][:2]) / 5
+    keypoints[0][12][0] = keypoints[0][8][0] + np.linalg.norm(keypoints[0][1][:2] - keypoints[0][8][:2]) / 5
+    keypoints[0][9][1] = keypoints[0][12][1] = keypoints[0][8][1]
+    keypoints[0][9][2] = keypoints[0][12][2] = keypoints[0][8][2]
 
     fitting_params = dict(keypoints=keypoints,
                           body_model=body_model,

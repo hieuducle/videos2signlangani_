@@ -31,7 +31,7 @@ import torch
 from torch.utils.data import Dataset
 
 
-from pose2animation.utils import smpl_to_openpose
+from smplifyx.utils import smpl_to_openpose
 
 Keypoints = namedtuple('Keypoints',
                        ['keypoints', 'gender_gt', 'gender_pd'])

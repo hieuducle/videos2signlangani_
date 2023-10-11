@@ -25,12 +25,6 @@ def load_pose(armature, pose_fn, frame):
     bpy.ops.object.smplx_set_poseshapes()
     bpy.ops.object.smplx_load_pose(filepath=pose_fn)
 
-    # # Rotating armature upside down
-    # armature.pose.bones['root'].rotation_quaternion = (0, 1, 0, 0)
-
-    # # Fixing character rotation
-    # armature.pose.bones['pelvis'].rotation_quaternion = (1, 0, 0, 0)
-
     # Adjusting pelvis' rotation
     pelvis = armature.pose.bones['pelvis']
     pelvis.rotation_mode = 'XYZ'
@@ -48,8 +42,8 @@ def load_pose(armature, pose_fn, frame):
     # ign_bone_names.extend(['spine1', 'spine2', 'spine3'])
     # Lower body
     ign_bone_names.extend(['right_hip', 'right_knee', 'right_ankle', 'right_foot', 'left_hip', 'left_knee', 'left_ankle', 'left_foot'])
-    ## Upper body
-    # ign_bone_names.extend(['neck', 'jaw', 'head', 'right_eye_smplhf', 'left_eye_smplhf'])
+    # Upper body
+    ign_bone_names.extend(['neck', 'jaw', 'head', 'right_eye_smplhf', 'left_eye_smplhf'])
     ## Pelvis
     # ign_bone_names.extend(['pelvis'])
 
