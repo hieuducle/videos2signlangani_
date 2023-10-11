@@ -11,7 +11,9 @@
 - PyTorch 1.x.x
 - Các thư viện trong [requirement.txt](requirements.txt)
 
-**Chú ý: FFMPEG và OPENPOSE cần được link vào PATH**
+```text
+Chú ý: FFMPEG và OPENPOSE cần được link vào PATH
+```
 
 ### Config thư mục
 
