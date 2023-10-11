@@ -163,6 +163,7 @@ def fit_pose2character(keypoints,
                           optim_jaw=True,
                           optim_hands=True,
                           optim_expression=True,
-                          optim_shape=True)
+                          optim_shape=True,
+                          interactive=False)
     fitting_params.update({key: val for key, val in args.items() if key not in fitting_params})
     return fit_single_frame(**fitting_params)

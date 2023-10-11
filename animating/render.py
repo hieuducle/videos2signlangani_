@@ -7,7 +7,7 @@ def init_camera(object):
     camera = bpy.data.objects.new('Camera', camera_data)
     bpy.context.scene.collection.objects.link(camera)
     camera.rotation_euler[0] = 1.57
-    camera.location = (0, -3, 0)
+    camera.location = (0, -2.3, 0.1)
     bpy.context.scene.camera = camera
     return camera
 

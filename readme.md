@@ -55,3 +55,5 @@ Chú ý: Để tối ưu thời gian chạy, có thể chạy nhiều tiến tr�
 ```sh
 python folder_splitter.py --folder {path tới thư mục cần chia} --div {số thư mục con được tạo ra}
 ```
+
+[Kho video ngôn ngữ ký hiệu](https://l.facebook.com/l.php?u=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1WuuQHWFTJv3AmpikSrN9wtKNEjTv0_ab%3Fusp%3Dsharing%26fbclid%3DIwAR0zM-WxMVTLbGm_PiuR8ZjkTQx3zKh33t-Tgk0TEPMWW0rH7VynsB3H51U&h=AT1-mSUS6XbrvbELsyW2lolZhkU5v0vgExrzijA1p8_LF4OST_vyGlnl7aoTvvejkglhuBu2BN6sBqpMp72XMXKJvIr1ZEL7glT2kPVa8Vk8d9_XdbbAEYYWxkgDmno6CbmhWw)

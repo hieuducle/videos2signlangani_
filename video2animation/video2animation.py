@@ -33,15 +33,18 @@ def video2animation(video_path,
     init_camera(armature)
 
     # load pose
-    for idx, pose_fn in enumerate(os.listdir(character_pose_data)):
-        pose_fn = osp.join(character_pose_data, pose_fn)
+    pose_files = []
+    for pose_fn in os.listdir(character_pose_data):
+        if int(osp.splitext(pose_fn)[0]) % frame_step == 0:
+            pose_files.append(osp.join(character_pose_data, pose_fn))
+    for idx, pose_fn in enumerate(pose_files):
         load_pose(armature=armature,
                   pose_fn=pose_fn,
-                  frame=idx*frame_step+1)
+                  frame=idx*frame_step)
     
     video_name = osp.splitext(osp.split(video_path)[1])[0]
     output_file = osp.join(env.OUTPUT_VIDEOS, video_name, video_name+f'_{gender}_{frame_step}.mp4')
-    render(0, len(os.listdir(character_pose_data))*frame_step, width=1000, height=2000, output_file=output_file)
+    render(0, sl_frame_length-1, output_file=output_file)
     
     play_videos(output_file,
                 video_processing.trim(video_path, sl_frame_start, sl_frame_length),
