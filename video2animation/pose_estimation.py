@@ -15,7 +15,11 @@ def estimating_pose(video_path: str,
     model_folder = env.OPENPOSE_MODEL
     output_folder = osp.join(env.OPENPOSE_OUTPUT_KEYPOINT, vid_name)
     os.makedirs(output_folder, exist_ok=True)
-    cmd = f'OpenPoseDemo --video \"{video_path}\" --write_json \"{output_folder}\" --model_folder \"{model_folder}\" --display 0 --number_people_max 1 --model_pose BODY_25'
+    if osp.exists('./openpose.bin'):
+        openpose = './openpose.bin'
+    else:
+        openpose = 'OpenPoseDemo'
+    cmd = f'{openpose} --video \"{video_path}\" --write_json \"{output_folder}\" --model_folder \"{model_folder}\" --display 0 --number_people_max 1 --model_pose BODY_25'
     if use_hands:
         cmd += ' --hand'
     if use_face:

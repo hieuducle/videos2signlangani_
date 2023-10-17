@@ -16,6 +16,7 @@ def video2animation(video_path,
                     use_face=True,
                     gender='neutral',
                     frame_step=1,
+                    render_video=True,
                     debug=False,
                     overwrite=False):
 
@@ -44,8 +45,9 @@ def video2animation(video_path,
     
     video_name = osp.splitext(osp.split(video_path)[1])[0]
     output_file = osp.join(env.OUTPUT_VIDEOS, video_name, video_name+f'_{gender}_{frame_step}.mp4')
-    render(0, sl_frame_length-1, output_file=output_file)
-    
-    play_videos(output_file,
-                video_processing.trim(video_path, sl_frame_start, sl_frame_length),
-                output_file=osp.splitext(output_file)[0]+'.parallel'+osp.splitext(output_file)[1])
+
+    if render_video:
+        render(0, sl_frame_length-1, output_file=output_file)
+        play_videos(output_file,
+                    video_processing.trim(video_path, sl_frame_start, sl_frame_length),
+                    output_file=osp.splitext(output_file)[0]+'.parallel'+osp.splitext(output_file)[1])

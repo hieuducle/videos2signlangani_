@@ -77,6 +77,10 @@ def get_sl_range(openpose_save: str, fps: int, frame_width: int, frame_height: i
     # return where sign language frame start and the total number of sign language frame
     frame_start = true_idx[0]
     frame_end = true_idx[-1] + 1
+
+    frame_start += 5
+    frame_end -= 5
+
     frame_length = frame_end - frame_start + 1
 
     return frame_start, frame_length

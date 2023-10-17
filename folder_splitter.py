@@ -1,5 +1,6 @@
 import os
 import os.path as osp
+import platform
 
 import configargparse
 
@@ -23,7 +24,10 @@ def main(folder: str, div: int):
         
     file_per_subfolder = (len(files)+div-1)//div
     for idx, file in enumerate(files):
-        cmd = f'copy \"{file}\" \"{des_dirs[idx//file_per_subfolder]}\" /y'
+        if platform.system() == "Windows":
+            cmd = f'copy \"{file}\" \"{des_dirs[idx//file_per_subfolder]}\" /y'
+        else:
+            cmd = f'cp \"{file}\" \"{des_dirs[idx//file_per_subfolder]}\"'
         print(cmd)
         os.system(cmd)
 
