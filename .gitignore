@@ -168,4 +168,5 @@ res/blender/addon/
 **/test.py
 *.md
 !readme.md
-!data/fit_smplx.yaml
+!human_body_prior/data
+!human_body_prior/models

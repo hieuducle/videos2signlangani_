@@ -20,3 +20,5 @@ SIGN_LANG_DETECTION = osp.join(MODELS_FOLDER, 'sl_detection/model.h5')
 SMPLX_MODEL = MODELS_FOLDER
 SMPLX_PRE_CONFIG = 'data/fit_smplx.yaml'
 VPOSE_MODEL = osp.join(MODELS_FOLDER, 'V02_05')
+
+QIPEDC_DATASET = 'data/qipedc_dataset.json'
