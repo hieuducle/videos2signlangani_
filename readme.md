@@ -42,13 +42,13 @@ Tạo thư mục `models` dùng để chứa các model sẽ sử dụng
 
 #### Openpose
 
-[Download](https://github.com/CMU-Perceptual-Computing-Lab/openpose/tree/master/models) các file trong thư mục trên vào `models\openpose`
+[Download](https://github.com/CMU-Perceptual-Computing-Lab/openpose/tree/master/models) các file trong thư mục trên vào `models/openpose`
 
 Sau đó chạy file `getModels`
 
 #### Sign language detection
 
-[Download](https://github.com/sign-language-processing/detection-train/tree/master/models/openpose-body/py) file `model.h5` vào thư mục `models\sl_detection`
+[Download](https://github.com/sign-language-processing/detection-train/tree/master/models/openpose-body/py) file `model.h5` vào thư mục `models/sl_detection`
 
 #### SMPLX
 
@@ -56,6 +56,11 @@ Truy cập [website](https://smpl-x.is.tue.mpg.de/) và đăng ký tài khoản.
 
 - [smplx](https://download.is.tue.mpg.de/download.php?domain=smplx&sfile=models_smplx_v1_1.zip)
 - [vposer](https://download.is.tue.mpg.de/download.php?domain=smplx&sfile=V02_05.zip)
+
+
+### Blender SPMLX add-on
+
+[Download](https://download.is.tue.mpg.de/download.php?domain=smplx&sfile=smplx_blender_addon_300_20220623.zip) vào thư mục `res/blender/addon`
 
 ## Sử dụng
 
