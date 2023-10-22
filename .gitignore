@@ -163,7 +163,9 @@ cython_debug/
 .venv/
 .vscode/
 models/
-data/
+data/input-data
+data/output-data
+data/temp
 res/blender/addon/
 **/test.py
 *.md

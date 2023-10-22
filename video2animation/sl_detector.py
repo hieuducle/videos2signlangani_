@@ -79,7 +79,7 @@ def get_sl_range(openpose_save: str, fps: int, frame_width: int, frame_height: i
     frame_end = true_idx[-1] + 1
 
     frame_start += 5
-    frame_end -= 5
+    frame_end -= 3
 
     frame_length = frame_end - frame_start + 1
 

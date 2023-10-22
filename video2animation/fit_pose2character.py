@@ -20,7 +20,7 @@ def fit_pose2character(keypoints,
                        gender="neutral",
                        use_hands=True,
                        use_face=True,
-                       use_cuda=True,
+                       use_cuda=False,
                        overwrite=False):
 
     if not overwrite:

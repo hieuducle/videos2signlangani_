@@ -1,6 +1,7 @@
 import os
 import os.path as osp
 import cv2
+import time
 
 import env
 
@@ -16,6 +17,7 @@ def fit_video2character(video_path,
                         use_face=True,
                         gender='neutral',
                         frame_step=1,
+                        no_pose_estimation=False,
                         debug=False,
                         overwrite=False):
     """
@@ -26,11 +28,21 @@ def fit_video2character(video_path,
         :sl_frame_length: the number of frames which contain hand sign
     """
 
-    print(f'\n Generating 3D pose for {gender} character from {video_path}')
+    print(f'\nGenerating 3D pose for {gender} character from {video_path}')
 
     video_path = to30fps(video_path)
-    pose_folder = estimating_pose(video_path, use_hands=use_hands, use_face=use_face, debug=debug, overwrite=overwrite)
     cap = cv2.VideoCapture(video_path)
+
+    if no_pose_estimation:
+        vid_name = osp.splitext(osp.split(video_path)[1])[0]
+        pose_folder = osp.join(env.OPENPOSE_OUTPUT_KEYPOINT, vid_name)
+        print(f'\nWaiting for estimating pose at {video_path}', flush=True)
+        while len(os.listdir(pose_folder)) < cap.get(cv2.CAP_PROP_FRAME_COUNT):
+            time.sleep(60)
+        print('Pose estimation finished\n')
+    else:
+        pose_folder = estimating_pose(video_path, use_hands=use_hands, use_face=use_face, debug=debug, overwrite=overwrite)
+
     sl_frame_range = get_sl_range(openpose_save=pose_folder,
                                   fps=cap.get(cv2.CAP_PROP_FPS),
                                   frame_width=cap.get(cv2.CAP_PROP_FRAME_WIDTH),
@@ -41,7 +53,7 @@ def fit_video2character(video_path,
     character_pose_data_folder = osp.join(env.OUTPUT_3D_POSE, osp.splitext(osp.split(video_path)[1])[0], gender)
     os.makedirs(character_pose_data_folder, exist_ok=True)
     for idx, keypoints in enumerate(pose_data[sl_frame_range[0]:sum(sl_frame_range)]):
-        if idx % frame_step != 0:
+        if idx % frame_step != 0 and idx != sl_frame_range[1] - 1:
             continue
 
         print(f'\nWorking with {video_path} on frame {idx+sl_frame_range[0]}')
@@ -52,4 +64,5 @@ def fit_video2character(video_path,
                            use_hands=use_hands,
                            use_face=use_face,
                            overwrite=overwrite)
+
     return character_pose_data_folder, video_path, sl_frame_range[0], sl_frame_range[1]

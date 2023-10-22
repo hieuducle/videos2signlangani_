@@ -42,11 +42,10 @@ def video2animation(video_path,
         load_pose(armature=armature,
                   pose_fn=pose_fn,
                   frame=idx*frame_step)
-    
-    video_name = osp.splitext(osp.split(video_path)[1])[0]
-    output_file = osp.join(env.OUTPUT_VIDEOS, video_name, video_name+f'_{gender}_{frame_step}.mp4')
 
     if render_video:
+        video_name = osp.splitext(osp.split(video_path)[1])[0]
+        output_file = osp.join(env.OUTPUT_VIDEOS, video_name, video_name+f'_{gender}_{frame_step}.mp4')
         render(0, sl_frame_length-1, output_file=output_file)
         play_videos(output_file,
                     video_processing.trim(video_path, sl_frame_start, sl_frame_length),

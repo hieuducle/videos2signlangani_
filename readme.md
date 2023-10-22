@@ -2,17 +2,34 @@
 
 ## Cài đặt
 
-### Requirement
+### Dependencies
 
-- Python 3.10
+- Python 3
 - [FFMPEG](https://ffmpeg.org/download.html)
 - [OPENPOSE DEMO](https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases/tag/v1.7.0)
-- CUDA
-- PyTorch 1.x.x
-- Các thư viện trong [requirement.txt](requirements.txt)
 
 ```text
 Chú ý: FFMPEG và OPENPOSE cần được link vào PATH
+```
+
+### Requirement package
+
+**Khuyến nghị: Nên sử dụng các môi trường ảo để dễ dàng quản lý package, tránh tình trạng nhiều project nhưng chung một môi trường Python khiến cho sau này không biết dọn dẹp kiểu gì mà chỉ có nước xóa đi cài lại python.**
+
+Trong trường hợp không biết dùng các Package manager xịn như Anaconda hay Poetry, có thể sử dụng môi trường ảo được hỗ trợ bởi Python:
+
+```sh
+# Thiết lập môi trường ảo
+python -m venv .venv
+
+# Kích hoạt môi trưởng ảo
+# Window
+.venv\Script\activate
+# Ubuntu
+source .venv/bin/activate
+
+# Cài đặt các thư viện python
+pip install -r requirement.txt
 ```
 
 ### Config thư mục
@@ -40,8 +57,6 @@ Truy cập [website](https://smpl-x.is.tue.mpg.de/) và đăng ký tài khoản.
 - [smplx](https://download.is.tue.mpg.de/download.php?domain=smplx&sfile=models_smplx_v1_1.zip)
 - [vposer](https://download.is.tue.mpg.de/download.php?domain=smplx&sfile=V02_05.zip)
 
-Sau đó tải file [config](https://github.com/vchoutas/smplify-x/blob/master/cfg_files/fit_smplx.yaml) vào thư mục `data\input-data`
-
 ## Sử dụng
 
 ### Xây dựng cơ sở dữ liệu ngôn ngữ ký hiệu 3D
@@ -58,4 +73,4 @@ Chú ý: Để tối ưu thời gian chạy, có thể chạy nhiều tiến tr�
 python folder_splitter.py --folder {path tới thư mục cần chia} --div {số thư mục con được tạo ra}
 ```
 
-[Kho video ngôn ngữ ký hiệu](https://l.facebook.com/l.php?u=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1WuuQHWFTJv3AmpikSrN9wtKNEjTv0_ab%3Fusp%3Dsharing%26fbclid%3DIwAR0zM-WxMVTLbGm_PiuR8ZjkTQx3zKh33t-Tgk0TEPMWW0rH7VynsB3H51U&h=AT1-mSUS6XbrvbELsyW2lolZhkU5v0vgExrzijA1p8_LF4OST_vyGlnl7aoTvvejkglhuBu2BN6sBqpMp72XMXKJvIr1ZEL7glT2kPVa8Vk8d9_XdbbAEYYWxkgDmno6CbmhWw)
+[Kho video ngôn ngữ ký hiệu](https://drive.google.com/drive/folders/1WuuQHWFTJv3AmpikSrN9wtKNEjTv0_ab?fbclid=IwAR0zM-WxMVTLbGm_PiuR8ZjkTQx3zKh33t-Tgk0TEPMWW0rH7VynsB3H51U)
