@@ -162,6 +162,7 @@ cython_debug/
 # Local
 .venv/
 .vscode/
+dump-code/
 models/
 data/input-data
 data/output-data
