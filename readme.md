@@ -4,7 +4,7 @@
 
 ### Dependencies
 
-- Python 3
+- Python 3.10
 - [FFMPEG](https://ffmpeg.org/download.html)
 - [OPENPOSE DEMO](https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases/tag/v1.7.0)
 
