@@ -8,24 +8,27 @@ from video2animation.fit_video2character import fit_video2character
 import env
 
 
-def main(videos_folder: str, gender: str, frame_step: int, no_pose_estimation, debug: bool, overwrite: bool):
+def main(videos_folder: str, gender: str, frame_step: int, no_pose_estimation, div: int, mod: int, debug: bool, overwrite: bool):
+    videos_list = os.listdir(videos_folder)
+    videos_list.sort()
     errors = {'errors': []}
-    for video in os.listdir(videos_folder):
-        try:
-            video_path = osp.join(videos_folder, video)
-            fit_video2character(video_path=video_path,
-                                use_hands=True,
-                                use_face=True,
-                                gender=gender,
-                                frame_step=frame_step,
-                                no_pose_estimation=no_pose_estimation,
-                                debug=debug,
-                                overwrite=overwrite)
-        except KeyboardInterrupt:
-            return
-        except:
-            print(f'\nSomething wrong with {video}\n')
-            errors['errors'].append(video)
+    for idx, video in enumerate(videos_list):
+        if idx % div == mod:
+            try:
+                video_path = osp.join(videos_folder, video)
+                fit_video2character(video_path=video_path,
+                                    use_hands=True,
+                                    use_face=True,
+                                    gender=gender,
+                                    frame_step=frame_step,
+                                    no_pose_estimation=no_pose_estimation,
+                                    debug=debug,
+                                    overwrite=overwrite)
+            except KeyboardInterrupt:
+                return
+            except:
+                print(f'\nSomething wrong with {video}\n')
+                errors['errors'].append(video)
 
     with open(osp.join(env.OUTPUT_FOLDER, 'error-videos.json'), 'w') as file:
         json.dump(errors, file, indent=4)
@@ -55,6 +58,16 @@ if __name__ == '__main__':
                         default=False,
                         required=False,
                         help='Gender: male, female or neutral')
+    parser.add_argument('--div',
+                        type=int,
+                        default=1,
+                        required=False,
+                        help='File id\'s division')
+    parser.add_argument('--mod',
+                        type=int,
+                        default=0,
+                        required=False,
+                        help='File id\'s modulo')
     parser.add_argument('--debug',
                         type=bool,
                         default=False,

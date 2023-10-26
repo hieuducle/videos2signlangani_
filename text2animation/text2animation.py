@@ -50,7 +50,9 @@ def text2animation(text: str, gender='neutral', frame_step=5, frame_between_word
         
         # load pose
         pose_files = []
-        for pose_fn in os.listdir(character_pose_data):
+        character_pose_fn = os.listdir(character_pose_data)
+        character_pose_fn.sort()
+        for pose_fn in character_pose_fn:
             idx = int(osp.splitext(pose_fn)[0])
             if (idx % frame_step == 0 and idx < sl_frame_length - frame_step) or (idx == sl_frame_length - 1):
                 pose_files.append((idx, osp.join(character_pose_data, pose_fn)))

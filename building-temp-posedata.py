@@ -7,9 +7,11 @@ from video2animation.pose_estimation import estimating_pose
 
 
 def main(videos_folder: str, div: int, mod: int, debug: bool, overwrite: bool):
-    for idx, video in enumerate(os.listdir(videos_folder)):
-        try:
-            if idx % div == mod:
+    videos_list = os.listdir(videos_folder)
+    videos_list.sort()
+    for idx, video in enumerate(videos_list):
+        if idx % div == mod:
+            try:
                 video_path = osp.join(videos_folder, video)
                 video_path = to30fps(video_path)
                 estimating_pose(video_path=video_path,
@@ -17,13 +19,9 @@ def main(videos_folder: str, div: int, mod: int, debug: bool, overwrite: bool):
                                 use_face=True,
                                 debug=debug,
                                 overwrite=overwrite)
-        except KeyboardInterrupt:
-            return
-
-# w00863T w01803b w02164b w02328n w03064 w004152
-
-# conda deactivate && source venv/bin/activate
-# python building-temp-posedata.py --videos-folder data/input-data/sl_videos --div 5 --mod 0
+            except KeyboardInterrupt:
+                return
+        
 
 if __name__ == '__main__':
     args = {}

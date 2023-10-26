@@ -9,8 +9,10 @@ def main(folder: str, div: int):
     if not osp.isdir(folder):
         raise Exception(f'{folder} is not a directory path')
     
+    files_list = os.listdir(folder)
+    files_list.sort()
     files = []
-    for name in os.listdir(folder):
+    for name in files_list:
         fn = osp.join(folder, name)
         if osp.isfile(fn):
             files.append(fn)
