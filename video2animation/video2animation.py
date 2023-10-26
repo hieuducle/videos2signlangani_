@@ -25,6 +25,7 @@ def video2animation(video_path,
                                                                                            use_face=use_face,
                                                                                            gender=gender,
                                                                                            frame_step=frame_step,
+                                                                                           detect_sign_language=False,
                                                                                            debug=debug,
                                                                                            overwrite=overwrite)
 
@@ -35,7 +36,9 @@ def video2animation(video_path,
 
     # load pose
     pose_files = []
-    for pose_fn in os.listdir(character_pose_data):
+    character_pose_fn = os.listdir(character_pose_data)
+    character_pose_fn.sort()
+    for pose_fn in character_pose_fn:
         if int(osp.splitext(pose_fn)[0]) % frame_step == 0:
             pose_files.append(osp.join(character_pose_data, pose_fn))
     for idx, pose_fn in enumerate(pose_files):

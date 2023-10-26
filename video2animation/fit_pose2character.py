@@ -12,10 +12,11 @@ from smplifyx.utils import *
 from smplifyx.data_parser import OpenPose
 from smplifyx.camera import create_camera
 from smplifyx.prior import create_prior
-from smplifyx.modified_fit_single_frame import fit_single_frame
+from smplifyx.modified_fit_single_frame import ImgSize, fit_single_frame
 
 
 def fit_pose2character(keypoints,
+                       img_size: ImgSize,
                        result_fn: str,
                        gender="neutral",
                        use_hands=True,
@@ -44,6 +45,7 @@ def fit_pose2character(keypoints,
             |\\.(?:nan|NaN|NAN))$''', re.X),
             list(u'-+0123456789.'))
         args = yaml.load(config_file, loader)
+    args['img_size'] = img_size
     args['use_hands'] = use_hands
     args['use_cuda'] = use_cuda
     args['gender'] = gender

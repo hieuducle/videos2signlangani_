@@ -2,14 +2,16 @@ import os
 import os.path as osp
 import cv2
 import time
+import numpy as np
 
 import env
 
+from smplifyx.data_parser import read_keypoints
 from video2animation.video_processing import to30fps
 from video2animation.pose_estimation import estimating_pose
 from video2animation.sl_detector import get_sl_range
 from video2animation.joints_autofill import fill_joints
-from video2animation.fit_pose2character import fit_pose2character
+from video2animation.fit_pose2character import fit_pose2character, ImgSize
 
 
 def fit_video2character(video_path,
@@ -18,6 +20,7 @@ def fit_video2character(video_path,
                         gender='neutral',
                         frame_step=1,
                         no_pose_estimation=False,
+                        detect_sign_language=True,
                         debug=False,
                         overwrite=False):
     """
@@ -43,13 +46,26 @@ def fit_video2character(video_path,
     else:
         pose_folder = estimating_pose(video_path, use_hands=use_hands, use_face=use_face, debug=debug, overwrite=overwrite)
 
-    sl_frame_range = get_sl_range(openpose_save=pose_folder,
-                                  fps=cap.get(cv2.CAP_PROP_FPS),
-                                  frame_width=cap.get(cv2.CAP_PROP_FRAME_WIDTH),
-                                  frame_height=cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    pose_data = fill_joints(pose_folder=pose_folder,
-                            use_hands=use_hands,
-                            use_face=use_face)
+    if detect_sign_language:
+        sl_frame_range = get_sl_range(openpose_save=pose_folder,
+                                    fps=cap.get(cv2.CAP_PROP_FPS),
+                                    frame_width=cap.get(cv2.CAP_PROP_FRAME_WIDTH),
+                                    frame_height=cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    else:
+        sl_frame_range = (0, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+
+    # Load motion data from disk
+    pose_data = []
+    keypoint_files = os.listdir(pose_folder)
+    keypoint_files.sort()
+    for keypoints_fn in keypoint_files:
+        keypoints = read_keypoints(osp.join(pose_folder, keypoints_fn), use_hands=use_hands, use_face=use_face)
+        keypoints = np.stack(keypoints.keypoints)[[0]]
+        pose_data.append(keypoints)
+
+    # Remove non-sign-lang frame data
+    pose_data = fill_joints(pose_data=pose_data)
+
     character_pose_data_folder = osp.join(env.OUTPUT_3D_POSE, osp.splitext(osp.split(video_path)[1])[0], gender)
     os.makedirs(character_pose_data_folder, exist_ok=True)
     for idx, keypoints in enumerate(pose_data[sl_frame_range[0]:sum(sl_frame_range)]):
@@ -59,6 +75,7 @@ def fit_video2character(video_path,
         print(f'\nWorking with {video_path} on frame {idx+sl_frame_range[0]}')
         character_pose_fn = osp.join(character_pose_data_folder, str(idx).zfill(12)+'.pkl')
         fit_pose2character(keypoints=keypoints,
+                           img_size=ImgSize(cap.get(cv2.CAP_PROP_FRAME_HEIGHT), cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                            result_fn=character_pose_fn,
                            gender=gender,
                            use_hands=use_hands,

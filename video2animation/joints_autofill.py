@@ -1,8 +1,4 @@
-import os
-import os.path as osp
 import numpy as np
-
-from smplifyx.data_parser import read_keypoints
 
 
 mid_shoulder_id = 1
@@ -25,7 +21,7 @@ scale_right_hip_from_mid_hip = (base_right_hip - base_mid_hip) / base_shoulder_l
 scale_left_hip_from_mid_hip = (base_left_hip - base_mid_hip) / base_shoulder_length
 
 
-def fill_joints(pose_folder:str, use_hands:bool, use_face:bool):
+def fill_joints(pose_data):
     """
     Auto fill missing hip joint base on shoulder
     Joint index in keypoints object
@@ -37,10 +33,8 @@ def fill_joints(pose_folder:str, use_hands:bool, use_face:bool):
         12: left hip
     """
 
-    pose_data = []
-    for idx, keypoints_fn in enumerate(os.listdir(pose_folder)):
-        keypoints = read_keypoints(osp.join(pose_folder, keypoints_fn), use_hands=use_hands, use_face=use_face)
-        keypoints = np.stack(keypoints.keypoints)[[0]]
+    new_pose_data = []
+    for keypoints in pose_data:
 
         right_shoulder_length = 0
         left_shoulder_length = 0
@@ -58,6 +52,6 @@ def fill_joints(pose_folder:str, use_hands:bool, use_face:bool):
         keypoints[0][right_hip_id] = keypoints[0][mid_hip_id] + shoulder_length * scale_right_hip_from_mid_hip
         keypoints[0][left_hip_id] = keypoints[0][mid_hip_id] + shoulder_length * scale_left_hip_from_mid_hip
 
-        pose_data.append(keypoints)
+        new_pose_data.append(keypoints)
 
-    return pose_data
+    return new_pose_data
