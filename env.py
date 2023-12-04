@@ -6,6 +6,7 @@ INPUT_FOLDER = 'data/input-data'
 
 OUTPUT_FOLDER = 'data/output-data'
 OUTPUT_3D_POSE = osp.join(OUTPUT_FOLDER, '3d-pose')
+OUTPUT_3D_SIGN_LANG = osp.join(OUTPUT_FOLDER, '3d-sign-lang')
 OUTPUT_VIDEOS = osp.join(OUTPUT_FOLDER, 'videos')
 
 

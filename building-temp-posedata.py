@@ -7,8 +7,8 @@ from video2animation.pose_estimation import estimating_pose
 
 
 def main(videos_folder: str, div: int, mod: int, debug: bool, overwrite: bool):
-    videos_list = os.listdir(videos_folder)
-    videos_list.sort()
+
+    videos_list = sorted(os.listdir(videos_folder))
     for idx, video in enumerate(videos_list):
         if idx % div == mod:
             try:

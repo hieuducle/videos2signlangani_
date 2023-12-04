@@ -16,7 +16,7 @@ def load_dictionary():
 
         word_text = str(word_metadata['word']).lower()
         word_text = re.sub("[\(\[].*?[\)\]]", "", word_text)
-        words = [word.strip() for word in word_text.split('/')]
+        words = [word.strip() for word in word_text.split('/ ')]
 
         for word in words:
             if word not in encoded_word or not str(encoded_word[word]).endswith('B'):

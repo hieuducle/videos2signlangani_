@@ -28,11 +28,10 @@ def load_pose(armature, pose_fn, frame):
     # Adjusting pelvis' rotation
     pelvis = armature.pose.bones['pelvis']
     pelvis.rotation_mode = 'XYZ'
-    if pelvis.rotation_euler.x < 0:
+    if pelvis.rotation_euler.x <= 0:
         pelvis.rotation_euler.x += pi
     else:
-        if pelvis.rotation_euler.x > 0:
-            pelvis.rotation_euler.x -= pi
+        pelvis.rotation_euler.x -= pi
     pelvis.rotation_euler.y *= -1
     pelvis.rotation_euler.z *= -1
     pelvis.rotation_mode = 'QUATERNION'

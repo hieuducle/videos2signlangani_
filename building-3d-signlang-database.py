@@ -9,8 +9,8 @@ import env
 
 
 def main(videos_folder: str, gender: str, frame_step: int, no_pose_estimation, div: int, mod: int, debug: bool, overwrite: bool):
-    videos_list = os.listdir(videos_folder)
-    videos_list.sort()
+    
+    videos_list = sorted(os.listdir(videos_folder))
     errors = {'errors': []}
     for idx, video in enumerate(videos_list):
         if idx % div == mod:

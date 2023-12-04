@@ -20,7 +20,7 @@ def fit_pose2character(keypoints,
                        result_fn: str,
                        gender="neutral",
                        use_hands=True,
-                       use_face=True,
+                       use_face=False,
                        use_cuda=False,
                        overwrite=False):
 
@@ -51,7 +51,7 @@ def fit_pose2character(keypoints,
     args['gender'] = gender
     
     # ignore mid chest and all joints below hip
-    args['joints_to_ign'] = [1, 9, 10, 11, 12, 13, 14, 19, 20, 21, 22, 23, 24]
+    args['joints_to_ign'] = [1, 8, 9, 10, 11, 12, 13, 14, 19, 20, 21, 22, 23, 24]
 
     if use_cuda and not torch.cuda.is_available():
         raise Exception('CUDA is not available, exiting!')

@@ -13,7 +13,7 @@ from video_player.play_videos import play_videos
 
 def video2animation(video_path,
                     use_hands=True,
-                    use_face=True,
+                    use_face=False,
                     gender='neutral',
                     frame_step=1,
                     render_video=True,
@@ -36,8 +36,7 @@ def video2animation(video_path,
 
     # load pose
     pose_files = []
-    character_pose_fn = os.listdir(character_pose_data)
-    character_pose_fn.sort()
+    character_pose_fn = sorted(os.listdir(character_pose_data))
     for pose_fn in character_pose_fn:
         if int(osp.splitext(pose_fn)[0]) % frame_step == 0:
             pose_files.append(osp.join(character_pose_data, pose_fn))

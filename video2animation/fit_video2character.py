@@ -14,9 +14,17 @@ from video2animation.joints_autofill import fill_joints
 from video2animation.fit_pose2character import fit_pose2character, ImgSize
 
 
-def fit_video2character(video_path,
+def get_3d_output_folder(video_path: str, gender: str, sl_only: bool):
+    if sl_only:
+        output_folder = osp.join(env.OUTPUT_3D_SIGN_LANG, osp.splitext(osp.split(video_path)[1])[0], gender)
+    else:
+        output_folder = osp.join(env.OUTPUT_3D_POSE, osp.splitext(osp.split(video_path)[1])[0], gender)
+    return output_folder
+
+
+def fit_video2character(video_path: str,
                         use_hands=True,
-                        use_face=True,
+                        use_face=False,
                         gender='neutral',
                         frame_step=1,
                         no_pose_estimation=False,
@@ -56,8 +64,7 @@ def fit_video2character(video_path,
 
     # Load motion data from disk
     pose_data = []
-    keypoint_files = os.listdir(pose_folder)
-    keypoint_files.sort()
+    keypoint_files = sorted(os.listdir(pose_folder))
     for keypoints_fn in keypoint_files:
         keypoints = read_keypoints(osp.join(pose_folder, keypoints_fn), use_hands=use_hands, use_face=use_face)
         keypoints = np.stack(keypoints.keypoints)[[0]]
@@ -66,7 +73,10 @@ def fit_video2character(video_path,
     # Remove non-sign-lang frame data
     pose_data = fill_joints(pose_data=pose_data)
 
-    character_pose_data_folder = osp.join(env.OUTPUT_3D_POSE, osp.splitext(osp.split(video_path)[1])[0], gender)
+    character_pose_data_folder = get_3d_output_folder(video_path=video_path,
+                                                      gender=gender,
+                                                      sl_only=detect_sign_language)
+
     os.makedirs(character_pose_data_folder, exist_ok=True)
     for idx, keypoints in enumerate(pose_data[sl_frame_range[0]:sum(sl_frame_range)]):
         if idx % frame_step != 0 and idx != sl_frame_range[1] - 1:
